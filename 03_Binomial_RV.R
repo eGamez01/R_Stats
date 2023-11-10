@@ -45,3 +45,6 @@ invisible(plot(hist(data), freq = FALSE,
 
 #overlay points
 points(x, dpois(x, lambda = 17))
+
+
+#change1
