@@ -47,7 +47,7 @@ invisible(plot(hist(data), freq = FALSE,
 points(x, dpois(x, lambda = 17))
 
 
-#change1
+#change1 - updated
 
 #change2
 
