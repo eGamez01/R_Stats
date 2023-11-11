@@ -8,3 +8,4 @@ data2 <- data
 data2$IDATE <- gsub('^.|.$', '', data2$IDATE)
 # remove first character
 data2$IDATE <- sub('.', '', data2$IDATE)
+#
