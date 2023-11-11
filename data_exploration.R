@@ -6,6 +6,23 @@ data2 <- data
 
 # remove first character (b) and last character (') from IDATE 
 data2$IDATE <- gsub('^.|.$', '', data2$IDATE)
-# remove first character
+# remove remaining first character
 data2$IDATE <- sub('.', '', data2$IDATE)
-#
+
+# remove first character (b) and last character (') from IMONTH
+data2$IMONTH <- gsub('^.|.$', '', data2$IMONTH)
+# remove remaining first character
+data2$IMONTH <- sub('.', '', data2$IMONTH)
+
+# remove first character (b) and last character (') from IDAY
+data2$IDAY <- gsub('^.|.$', '', data2$IDAY)
+# remove remaining first character
+data2$IDAY <- sub('.', '', data2$IDAY)
+
+# remove first character (b) and last character (') from IDATE 
+data2$IYEAR <- gsub('^.|.$', '', data2$IYEAR)
+# remove remaining first character
+data2$IYEAR <- sub('.', '', data2$IYEAR)
+head(data2$IYEAR)
+
+
