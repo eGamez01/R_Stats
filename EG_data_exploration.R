@@ -51,4 +51,21 @@ text(mds_data$MDS1, mds_data$MDS2, labels = mds_data$Var1, cex = 0.7)
 
 
 
+#exploratory pca
+data.pca <- princomp(covmat = data)
+summary(data.pca, loadings = TRUE)
 
+#pca with subset of symptoms 
+var <- c("Diabetes_012", "HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack", "HvyAlcoholConsump")
+symp <- data[var]
+
+head(symp)
+
+cov(symp)
+
+symp.pca <- princomp(symp = covmat)
+
+summary(symp.pca, loadings = TRUE)
+(symp.pca$sdev^2) > mean(symp.pca$sdev^2)
+
+abs(symp.pca$loadings[,1:3]) > 0.5
