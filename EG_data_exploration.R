@@ -15,13 +15,35 @@ text(voting.mds$points, labels = colnames(voting),
      cex = 1.2)
 
 
-#replicating method on dataset
+
+#replicating non-metric method on dataset. Cant get this to work
 diabetes.mds <- isoMDS(data)
 plot(data.mds$points, type = "n",
      main = "Non-Metric MDS on Diabetes Data",
      xlab = "Component 1", ylab = "Component 2")
 text(data.mds$points, labels = colnames(data),
      cex = 1.2)
+
+
+
+
+# Calculate the correlation matrix
+cor_matrix <- cor(data)
+
+# The correlation distance is defined as (1 - correlation)
+cor_diabetes <- as.dist(1 - cor_matrix)
+# Perform MDS using the cmdscale() function
+
+mds <- cmdscale(cor_diabetes, eig = TRUE, k = 2)  # k = 2 for two-dimensional MDS
+# Create a data frame for plotting
+mds_data <- data.frame(
+  Var1 = rownames(cor_matrix),
+  MDS1 = mds$points[, 1],
+  MDS2 = mds$points[, 2]
+)
+# Plot the MDS
+plot(mds_data$MDS1, mds_data$MDS2, type = "n", xlab = "MDS1", ylab = "MDS2", main = "MDS Plot of Health Variables")
+text(mds_data$MDS1, mds_data$MDS2, labels = mds_data$Var1, cex = 0.7)
 
 
 #comment
