@@ -2,3 +2,4 @@
 data <- read.csv("https://raw.githubusercontent.com/eGamez01/lfs_data/master/reduced_2015.csv")
 
 #comment
+#comment2
