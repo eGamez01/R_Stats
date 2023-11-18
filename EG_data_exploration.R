@@ -50,10 +50,5 @@ plot(mds_data$MDS1, mds_data$MDS2, type = "n", xlab = "MDS1", ylab = "MDS2", mai
 text(mds_data$MDS1, mds_data$MDS2, labels = mds_data$Var1, cex = 0.7)
 
 
-<<<<<<< HEAD
-#comment
-=======
-#comment
 
-#comment by Caroline #
->>>>>>> 70a5986 (Test comment)
+
