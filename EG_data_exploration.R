@@ -17,7 +17,11 @@ text(voting.mds$points, labels = colnames(voting),
 
 
 #replicating non-metric method on dataset. Cant get this to work
-diabetes.mds <- isoMDS(data)
+data2 <- data[1:1000,]
+dist <- dist(as.matrix(data2))
+
+data.mds <- isoMDS(dist)
+
 plot(data.mds$points, type = "n",
      main = "Non-Metric MDS on Diabetes Data",
      xlab = "Component 1", ylab = "Component 2")
