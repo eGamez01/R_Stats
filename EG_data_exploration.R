@@ -77,6 +77,21 @@ text(mds_data$MDS1, mds_data$MDS2, labels = mds_data$Var1, cex = 0.7)
 data.pca <- princomp(covmat = data) # The reason this isn't working is because the object "data" is not a correlation or cov matrix. Either use correlation or Cov matrix, or use princomp(data).
 summary(data.pca, loadings = TRUE)
 
+# Determine number of components
+# Components that have a variance greater than the mean variance
+data.pca$sdev^2 > mean(data.pca$sdev^2)
+
+# Scree plot of the variance for each component
+plot(1:22, data.pca$sdev^2 , type = "b",
+     main = "Scree Plot of PCA Data",
+     xlab = "Component Index", ylab = "Variance")
+# We can get away with 2 components, 3 would be better.
+
+# Analyze first 3 components loadings
+data.pca$loadings[,1:3]
+
+abs(data.pca$loadings[,1:3]) > 0.5
+
 #pca with subset of symptoms 
 var <- c("Diabetes_012", "HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack", "HvyAlcoholConsump")
 symp <- data[var]
