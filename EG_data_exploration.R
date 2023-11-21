@@ -75,6 +75,7 @@ text(mds_data$MDS1, mds_data$MDS2, labels = mds_data$Var1, cex = 0.7)
 
 #exploratory pca
 data.pca <- princomp(covmat = data) # The reason this isn't working is because the object "data" is not a correlation or cov matrix. Either use correlation or Cov matrix, or use princomp(data).
+data.pca <- princomp(data)
 summary(data.pca, loadings = TRUE)
 
 # Determine number of components
