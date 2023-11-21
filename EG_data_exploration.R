@@ -39,6 +39,14 @@ cor_diabetes <- as.dist(1 - cor_matrix)
 # Perform MDS using the cmdscale() function
 
 mds <- cmdscale(cor_diabetes, eig = TRUE, k = 2)  # k = 2 for two-dimensional MDS
+
+# Check the ratio of the k eigen values compared to the sum of all eigenvalues
+mds.eig <- cmdscale(cor_diabetes, eig = TRUE, k = 21)
+cumsum(mds.eig$eig)/sum(mds.eig$eig) # This is not giving a ratio of 0.8 or greater for the first two eigenvalues
+
+# display the loadings for MDS
+mds$points
+
 # Create a data frame for plotting
 mds_data <- data.frame(
   Var1 = rownames(cor_matrix),
