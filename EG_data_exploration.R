@@ -83,9 +83,10 @@ symp <- data[var]
 
 head(symp)
 
-cov(symp)
 
-symp.pca <- princomp(symp = covmat)
+symp <- cor(symp)
+
+symp.pca <- princomp(covmat = symp)
 
 summary(symp.pca, loadings = TRUE)
 (symp.pca$sdev^2) > mean(symp.pca$sdev^2)
