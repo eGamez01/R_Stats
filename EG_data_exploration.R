@@ -5,6 +5,37 @@
 data <- read.csv("https://raw.githubusercontent.com/eGamez01/lfs_data/master/2015_diabetes_cleansed.csv")
 
 
+# -----------------Data cleaning & Visulaization----------------------------------------------------------------------------
+
+# check for missing data
+RowsWithNA <- which(rowSums(is.na(data)) > 0)
+length(RowsWithNA) # No missing values 
+
+plot(data[,1:22])
+
+# rug plot of diabetes & highBP
+plot(jitter(data$Diabetes_012) , jitter(data$HighBP))
+,
+     ylab = "HighBP",
+     xlab = "Diabetes Status", type = "n")
+rug(data$Diabetes_012, side = 1) # put rug symbols on horizontal
+rug(data$HighBP, side = 2) # put rug symbols on vertical
+text(data$Diabetes_012,data$HighBP,
+     cex = 0.6, labels = abbreviate(row.names(data)))
+
+# bivariate boxplot 
+library(MVA)
+diab_j <- scale(data$Diabetes_012)
+hbp_j <-  scale(data$HighBP)
+x <- scale(cbind(diab_j, hbp_j))
+bvbox(x)
+
+# We may have a hard time finding any useful information from visulizations before dimensionality reduction 
+# due to the data being mostly binary
+
+# -------------Dimensionality Reduction---------------------------------------------------------------------
+
+
 #example from lectures on Non-Metric MDS
 # This example has the same values for rows as they do columns. Maybe this difference is why the replication was unsuccessful.
 voting[1:5,1:5]
