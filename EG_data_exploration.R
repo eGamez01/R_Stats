@@ -42,6 +42,8 @@ plot(data.mds$points, type = "n",
 text(data.mds$points, labels = colnames(data),
      cex = 1.2)
 
+# Display Stress
+data.mds$stress # This is between poor fit (20%) and fair fit (10%)
 
 # Calculate the correlation matrix
 cor_matrix <- cor(data)
