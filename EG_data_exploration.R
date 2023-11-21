@@ -6,6 +6,7 @@ data <- read.csv("https://raw.githubusercontent.com/eGamez01/lfs_data/master/201
 
 
 #example from lectures on Non-Metric MDS
+# This example has the same values for rows as they do columns. Maybe this difference is why the replication was unsuccessful.
 voting[1:5,1:5]
 voting.mds <- isoMDS(voting)
 plot(voting.mds$points, type = "n",
@@ -17,6 +18,7 @@ text(voting.mds$points, labels = colnames(voting),
 
 
 #replicating non-metric method on dataset. Cant get this to work
+library(MASS)
 data2 <- data[1:1000,]
 dist <- dist(as.matrix(data2))
 
@@ -28,7 +30,17 @@ plot(data.mds$points, type = "n",
 text(data.mds$points, labels = colnames(data),
      cex = 1.2)
 
+# Retrying non-metric MDS with correlation matrix
+cor_matrix <- cor(data)
+cor_diabetes <- as.dist(1 - cor_matrix)
 
+data.mds <- isoMDS(cor_diabetes)
+
+plot(data.mds$points, type = "n",
+     main = "Non-Metric MDS on Diabetes Data",
+     xlab = "Component 1", ylab = "Component 2")
+text(data.mds$points, labels = colnames(data),
+     cex = 1.2)
 
 
 # Calculate the correlation matrix
