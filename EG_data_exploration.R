@@ -139,3 +139,49 @@ summary(symp.pca, loadings = TRUE)
 (symp.pca$sdev^2) > mean(symp.pca$sdev^2)
 
 abs(symp.pca$loadings[,1:3]) > 0.5
+
+
+#Perform HC Clustering
+
+#Using the correlation matrix find the distance
+dist_hc = dist(cor_matrix)
+
+#Use Complete Linkage for HC Clustering
+hc.d = hclust(dist_hc, "complete")
+
+
+#Plot the resulting Dendrogram
+plot( hc.d, main = "Hierarchical Cluster Dendrogram Using Complete Linkage" , cex = 0.5)
+
+
+#Perform K-means clustering 
+
+#Scale the data
+data.s = scale(data)
+
+#Scree Plot to decide how many clusters to use
+plot.wgss <- function(mydata, maxc){
+  wss <- numeric(maxc)
+  for (i in 1:maxc){
+    wss[i] <- kmeans(mydata, iter.max = 100,
+                     centers = i, nstart = 10)$tot.withinss
+  }
+  plot(1:maxc, wss, type = "b",
+       xlab = "Number of Clusters",
+       ylab = "Within Groups Sum of Squares",
+       main = "Scree Plot")
+}
+
+#Plot the Scree plot function using the Scaled Data
+plot.wgss(data.s, 20)
+
+#Based on scree plot 2 clusters should be used
+kmd = kmeans(data.s, centers = 2)
+
+table(kmd$cluster)
+
+kmd$tot.withinss
+
+#Look at the cluster #1
+round(subset(data.s, kmd$cluster==1), 3)
+
