@@ -31,7 +31,7 @@ outdata <- match(c(outliers, outliers2, outliers3, outliers4, outliers5), rownam
 
 # create bivariate boxplot to identify outliers
 bvbox(x, xlab = "Phsyical Health", ylab = "General Health",
-      main = "Biplot of Health Given Phsysical Health")
+      main = "BV Plot of General Health Given Phsysical Health")
 text(x$PhysHlth[outdata], x$GenHlth[outdata], labels = outliers, cex = 0.5, col = "red")
 
 # remove outliers from the data
