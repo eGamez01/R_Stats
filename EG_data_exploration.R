@@ -11,24 +11,32 @@ data <- read.csv("https://raw.githubusercontent.com/eGamez01/lfs_data/master/201
 RowsWithNA <- which(rowSums(is.na(data)) > 0)
 length(RowsWithNA) # No missing values 
 
-plot(data[,1:22])
-
-# rug plot of diabetes & highBP
-plot(jitter(data$Diabetes_012) , jitter(data$HighBP))
-,
-     ylab = "HighBP",
-     xlab = "Diabetes Status", type = "n")
-rug(data$Diabetes_012, side = 1) # put rug symbols on horizontal
-rug(data$HighBP, side = 2) # put rug symbols on vertical
-text(data$Diabetes_012,data$HighBP,
-     cex = 0.6, labels = abbreviate(row.names(data)))
-
-# bivariate boxplot 
+library(corrplot)
 library(MVA)
-diab_j <- scale(data$Diabetes_012)
-hbp_j <-  scale(data$HighBP)
-x <- scale(cbind(diab_j, hbp_j))
-bvbox(x)
+
+cor.data <- cor(data)
+
+corrplot(cor.data)
+
+# Create a subset of the variables that are most highly correlated
+x <- data[, c("PhysHlth", "GenHlth")]
+# Scale the variables
+x <- scale(x)
+
+outliers <- which(data[,c("PhysHlth")] > 7)
+outliers2 <- which(data[,c("GenHlth")] > 4.9)
+outdata <- match(c(outliers, outliers2), rownames(data))
+
+# create bivariate boxplot to identify outliers
+bvbox(x, xlab = "Phsyical Health", ylab = "General Health",
+      main = "General Health Given Phsysical Health")
+text(x$PhysHlth[outdata], x$GenHlth[outdata], labels = outliers, cex = 0.5, col = "red")
+
+# remove outliers from the data
+data2 <- data[-outdata,]
+
+cor.data2 <- cor(data2)
+corrplot(cor.data2)
 
 # We may have a hard time finding any useful information from visulizations before dimensionality reduction 
 # due to the data being mostly binary
