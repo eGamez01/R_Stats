@@ -20,8 +20,6 @@ corrplot(cor.data)
 
 # Create a subset of the variables that are most highly correlated
 x <- data[, c("PhysHlth", "GenHlth")]
-# Scale the variables
-x <- scale(x)
 
 outliers <- which(data[,c("PhysHlth")] > 7)
 outliers2 <- which(data[,c("GenHlth")] > 4.9)
