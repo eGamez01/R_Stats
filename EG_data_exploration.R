@@ -237,3 +237,26 @@ options(digits = 2)
 
 #view first 5 to check 
 inspect(sort(rules, by = "lift")[1:10])
+
+
+#### -------------------- EFA ---------------------- ###
+
+## EFA with three factors 
+efa.d <- factanal(data, factors = 3)
+efa.d
+
+#p-value of 0 -- not useful here due to the sample size, interpretations will be solely based on loadings 
+#F1 has moderate relationships with High BP, High Cholesterol, and Age
+#F2 has strong relationship with Physical Health, and moderate relationships w/ Gen Health, Mental Health, and Difficulty Walking
+#F3 has moderate relationships with Education and Income -- Demographic variables here? 
+
+## EFA with two factors 
+efa.d <- factanal(data, factors = 2)
+efa.d
+
+# F1 has moderate positive relationships with Gen Health, Phys Health, and Difficulty Walking, and a negative relationship with income
+# Looks like Factor 1 here has the relationship with the demographic variables rather than F3 in the above EFA 
+# F2 has moderate positive relationships with High BP and Age
+### Based on this, three factors may be our best bet and the one to base CFA on 
+
+
