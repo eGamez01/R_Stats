@@ -185,3 +185,54 @@ kmd$tot.withinss
 #Look at the cluster #1
 round(subset(data.s, kmd$cluster==1), 3)
 
+
+####### MARKET BASKET ANALYSES #####
+#run market basket analysis 
+
+#reading in reduced 2015 dataset. 20% sample of original file.
+data <- read.csv("https://raw.githubusercontent.com/eGamez01/lfs_data/master/2015_diabetes_cleansed.csv")
+
+#install library 
+install.packages("arules")
+library(arules)
+
+#create subset with binary data only (i.e., exclude all the data recorded on a scale)
+#includes all binary data
+subset1 <- c("Diabetes_012", "HighBP", "HighChol", "CholCheck", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "DiffWalk", "Sex")
+symptoms1 <- data[subset1]
+
+head(symptoms1)
+
+#recode diabetes_012 variable as binary to indicate the presence of diabetes or no diabetes 
+#specification of gestational diabetes is not necessary here
+
+data$Diabetes_012<- ifelse(data$Diabetes_012 > 0, 1, 0)
+
+#restructure as matrix
+diab <- as.matrix(symptoms1)
+head(diab)
+
+#obtain association rules 
+rules <- apriori(diab, list(support = 0.05, confidence = 0.8, minlen = 3))
+options(digits = 2)
+
+#view first 5 to check 
+inspect(sort(rules, by = "lift")[1:10])
+
+
+##rerun after removing variables cholesterol check, and access to healthcare variables
+subset2 <- c("Diabetes_012", "HighBP", "HighChol", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "DiffWalk", "Sex")
+symptoms2 <- data[subset2]
+
+head(symptoms2)
+
+#new matrix with subset2
+diab2 <- as.matrix(symptoms2)
+head(diab2)
+
+#obtain association rules 
+rules <- apriori(diab2, list(support = 0.05, confidence = 0.8, minlen = 3))
+options(digits = 2)
+
+#view first 5 to check 
+inspect(sort(rules, by = "lift")[1:10])
