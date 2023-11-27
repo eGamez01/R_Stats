@@ -140,7 +140,7 @@ summary(symp.pca, loadings = TRUE)
 
 abs(symp.pca$loadings[,1:3]) > 0.5
 
-####### ----------------- HC Clustering --------------------######33333
+####### ----------------- HC Clustering --------------------######
 
 #Perform HC Clustering
 
