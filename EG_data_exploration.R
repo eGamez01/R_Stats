@@ -21,13 +21,17 @@ corrplot(cor.data)
 # Create a subset of the variables that are most highly correlated
 x <- data[, c("PhysHlth", "GenHlth")]
 
+
 outliers <- which(data[,c("PhysHlth")] > 7)
 outliers2 <- which(data[,c("GenHlth")] > 4.9)
-outdata <- match(c(outliers, outliers2), rownames(data))
+outliers3 <- which(data[,c("GenHlth")] == 1 & data[,c("PhysHlth")] > 5)
+outliers4 <- which(data[,c("GenHlth")] == 4 & data[,c("PhysHlth")] > 6.5)
+outliers5 <- which(data[,c("GenHlth")] == 2 & data[,c("PhysHlth")] > 6.999)
+outdata <- match(c(outliers, outliers2, outliers3, outliers4, outliers5), rownames(data))
 
 # create bivariate boxplot to identify outliers
 bvbox(x, xlab = "Phsyical Health", ylab = "General Health",
-      main = "General Health Given Phsysical Health")
+      main = "Biplot of Health Given Phsysical Health")
 text(x$PhysHlth[outdata], x$GenHlth[outdata], labels = outliers, cex = 0.5, col = "red")
 
 # remove outliers from the data
