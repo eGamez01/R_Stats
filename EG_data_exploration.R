@@ -103,7 +103,7 @@ plot(mds_data$MDS1, mds_data$MDS2, type = "n", xlab = "MDS1", ylab = "MDS2", mai
 text(mds_data$MDS1, mds_data$MDS2, labels = mds_data$Var1, cex = 0.7)
 
 
-
+############------------- Exploratory PCA ----------------------#############
 #exploratory pca
 data.pca <- princomp(covmat = data) # The reason this isn't working is because the object "data" is not a correlation or cov matrix. Either use correlation or Cov matrix, or use princomp(data).
 data.pca <- princomp(data)
@@ -140,6 +140,7 @@ summary(symp.pca, loadings = TRUE)
 
 abs(symp.pca$loadings[,1:3]) > 0.5
 
+####### ----------------- HC Clustering --------------------######33333
 
 #Perform HC Clustering
 
@@ -186,7 +187,7 @@ kmd$tot.withinss
 round(subset(data.s, kmd$cluster==1), 3)
 
 
-####### MARKET BASKET ANALYSES #####
+####### ----------- MARKET BASKET ANALYSES ----------------- #####
 #run market basket analysis 
 
 #reading in reduced 2015 dataset. 20% sample of original file.
