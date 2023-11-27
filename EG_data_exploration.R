@@ -45,6 +45,25 @@ corrplot(cor.data2)
 
 # -------------Dimensionality Reduction---------------------------------------------------------------------
 
+# PCA with outliers removed
+data2.pca <- princomp(data2)
+
+# components with variance larger than the mean variance
+data2.pca$sdev^2 > mean(data2.pca$sdev^2)
+
+# display the summary
+summary(data2.pca, loadings = TRUE)
+
+# Create scree plot 
+plot(1:22, data2.pca$sdev^2, type = "b",
+     main = "Scree Plot of PCA Data",
+     xlab = "Component Index", ylab = "Variance")
+
+round(data2.pca$loadings[,1:3], 3)
+# component 1 is a weighted average of BMI and Mental health, 
+# component 2 is a difference between BMI and mental health,
+# component 3 is a weighted difference between age and income, but largely influenced by age
+
 
 #example from lectures on Non-Metric MDS
 # This example has the same values for rows as they do columns. Maybe this difference is why the replication was unsuccessful.
