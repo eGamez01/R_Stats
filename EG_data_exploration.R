@@ -215,6 +215,60 @@ kmd$tot.withinss
 #Look at the cluster #1
 round(subset(data.s, kmd$cluster==1), 3)
 
+#### -------------------- K-Modes Clustering ---------------------- ###
+
+#duplicate dataset before updating data format
+data3 <- data
+library(klaR)
+library(ggplot2)
+
+#Convert columns to factors to prepare for kmodes
+categorical_columns <- setdiff(names(data3), "Cluster")
+data3[categorical_columns] <- lapply(data3[categorical_columns], factor)
+
+#Read the data and prepare it for clustering.
+cluster_data3 <- data3[, !(names(data3) %in% c("ID", "Diabetes_012"))]#removing columns not needed for clustering         
+
+k_values <- 2:7  # k values range from 2 to 7
+withindiffs <- numeric(length(k_values))  # containter to store the withindiff values
+
+for (i in 1:length(k_values)) {
+  k <- k_values[i]
+  set.seed(123)  # Setting a seed for reproducibility
+  kmodes_result <- kmodes(cluster_data3, modes = k)
+  withindiffs[i] <- kmodes_result$withindiff  # Use the loop variable i for indexing
+}
+
+# Plotting
+plot(k_values, withindiffs, type = "b", pch = 19, frame = FALSE, 
+     xlab = "Number of Clusters", ylab = "WithInDiff",
+     main = "Scree Plot for k-modes Clustering")
+
+
+#after choosing 5 clusters, rerun with modes = 5 and add cluster information to data3.
+set.seed(123)
+kmodes_result <- kmodes(cluster_data3, modes = 5)
+data3$Cluster <- kmodes_result$cluster
+ggplot(data3, aes(x = factor(Cluster), fill = factor(Diabetes_012))) +
+  geom_bar(position = "fill") +
+  labs(x = "Cluster", y = "Proportion", fill = "Diabetes Status") +
+  ggtitle("Distribution of Diabetes Status in Each Cluster")
+
+
+###Compare Variable Distributions1
+ggplot(data3, aes(x=factor(Cluster), fill=factor(HighBP))) +
+  geom_bar(position="fill") +
+  labs(x="Cluster", y="Proportion", fill="HighBP") +
+  ggtitle("Stacked Bar Plot of HighBP Variable by Cluster")
+
+
+###Compare Variable Distributions4
+ggplot(data3, aes(x=factor(Cluster), fill=factor(Veggies))) +
+  geom_bar(position="fill") +
+  labs(x="Cluster", y="Proportion", fill="Veggies") +
+  ggtitle("Stacked Bar Plot of Veggies Variable by Cluster")
+
+
 
 ####### ----------- MARKET BASKET ANALYSES ----------------- #####
 #run market basket analysis 
@@ -326,3 +380,30 @@ diabetes.model <- specifyModel (text = "
 ## getting error message at this step, doing something wrong ): 
 diab.cfa <- sem(diabetes.model, data = symptoms)
 summary(diab.cfa)
+
+#### -------------------- CFA alternate ---------------------- ###
+##testing new package for CFA
+
+install.packages("lavaan")
+library(lavaan)
+
+# Specifying the model
+model <- '
+  Heart =~ HighBP + HighChol + Age
+  General =~ GenHlth + MentHlth + PhysHlth
+  Demographic =~ Education + Income
+'
+
+# Fitting the model
+fit <- cfa(model, data = data, ordered = c("HighBP", "HighChol", "Age", "GenHlth", "MentHlth", "PhysHlth", "Education", "Income"))
+
+#printing results
+summary(fit, fit.measures = TRUE)
+
+#path diagram
+install.packages("htmltools")
+install.packages("semPlot")
+library(semPlot)
+
+semPaths(fit, whatLabels = "est", layout = "tree", edge.label.cex = 0.8, node.label.cex = 0.8)
+
