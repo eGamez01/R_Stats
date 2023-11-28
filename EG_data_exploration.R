@@ -289,3 +289,40 @@ efa.d
 ### Based on this, three factors may be our best bet and the one to base CFA on 
 
 
+#### -------------------- CFA ---------------------- ###
+
+#CFA with two factors for health indicators
+#F1 - Heart health
+#F2 - General well-being/overall health 
+
+install.packages("sem")
+library(sem)
+
+#subset of health indicators 
+subset <- c("HighBP", "HighChol", "Age", "GenHlth", "MentHlth", "PhysHlth")
+symptoms <- data[subset]
+
+symptoms
+
+#build model... not fun 
+
+diabetes.model <- specifyModel (text = "
+      Heart     ->  HighBP    , lambda1, NA
+      Heart     ->  HighChol  , lambda2, NA
+      Heart     ->  Age       , lambda3, NA
+      General   ->  GenHlth   , lambda4, NA
+      General   ->  MentHlth  , lambda5, NA
+      General   ->  PhysHlth  , lambda6, NA
+      HighBP    <-> HighBP    , psi1  , NA
+      HighChol  <-> HighChol  , psi2  , NA
+      Age       <-> Age       , psi3  , NA
+      GenHlth   <-> GenHlth   , psi4  , NA
+      MentHlth  <-> MentHlth  , psi5  , NA
+      PhysHlth  <-> PhysHlth  , psi6  , NA
+      Heart     <-> Heart     , phi1  , NA
+      General   <-> General   , phi2  , NA
+      Heart     <-> General   , phi12 , NA")
+
+## getting error message at this step, doing something wrong ): 
+diab.cfa <- sem(diabetes.model, data = symptoms)
+summary(diab.cfa)
